@@ -1,15 +1,18 @@
 import requests
 
+
 class Logic:
     def run_logic():
-        data = requests.get("https://prices.runescape.wiki/api/v1/osrs/latest").json()
-        top10 = [1,1,1,1,1,1,1,1,1,1]
-        top10_ids = [1,1,1,1,1,1,1,1,1,1]
+        data = requests.get(
+            "https://prices.runescape.wiki/api/v1/osrs/latest").json()
+        top10 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        top10_ids = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         top10_names = []
         for i in data["data"]:
-            
+
             try:
-                data["data"][i]["margin"] = (data["data"][i]["high"]-data["data"][i]["low"])/((data["data"][i]["high"]+data["data"][i]["low"])/2)
+                data["data"][i]["margin"] = (data["data"][i]["high"]-data["data"][i]["low"])/(
+                    (data["data"][i]["high"]+data["data"][i]["low"])/2)
                 if data["data"][i]["margin"] > float(top10[0]):
                     top10[0] = data["data"][i]["margin"]
                     top10_ids[0] = i
@@ -42,10 +45,10 @@ class Logic:
                     top10[9] = data["data"][i]["margin"]
             except TypeError:
                 pass
-                
 
         for j in top10_ids:
-            data = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=" +str(j)).json()
+            data = requests.get(
+                "http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=" + str(j)).json()
             top10_names.append(data["item"]["name"])
 
         print(f"""
